@@ -1,5 +1,6 @@
 from pyeasyga import pyeasyga
 import random
+import requests
 
 
 # ----------------------------------------------------------------
@@ -247,7 +248,7 @@ def main():
     volume = param[1] / 10
     price = param[2]
 
-    print("� ешение, полученное применением генетического алгоритма из pyeasyga")
+    print("Решение, полученное применением генетического алгоритма из pyeasyga")
     print("Ценность: ", price)
     print("Набор предметов: ", set_objects)
     print("Вес набора: ", weight, "Объем набора: ", volume)
@@ -309,6 +310,16 @@ def main():
         print("Ценность: ", my_price)
         print("Набор предметов: ", my_set_objects)
         print("Вес набора: ", my_weight, "Объем набора: ", my_volume)
+
+    json = {"Name":"Vladislava Kachalova",
+            "1": {"value": price, "weight": weight, "volume": volume, "items": set_objects},
+            "2": {"value": my_price, "weight": my_weight, "volume": my_volume, "items": my_set_objects}}
+
+    url = 'http://cit-home1.herokuapp.com/api/ga_homework'
+    headers = {'Content-type': 'application/json'}
+    r = requests.post(url, headers=headers, json=json)
+    print(r.status_code, r.reason)
+    print(r.text)
 
     return
 
